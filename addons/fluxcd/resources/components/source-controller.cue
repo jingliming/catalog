@@ -5,6 +5,7 @@ _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
 _sourceControllerName: "fluxcd-source-controller"
+_imagePullSecrets: [...string]
 
 sourceController: {
 	// About this name, refer to #429 for details.
@@ -13,6 +14,7 @@ sourceController: {
 	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
+		imagePullSecrets: _imagePullSecrets
 		image:           _base + "fluxcd/source-controller:v0.25.1"
 		env: [
 			{

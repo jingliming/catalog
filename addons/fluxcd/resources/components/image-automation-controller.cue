@@ -4,6 +4,7 @@ _base: string
 _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
+_imagePullSecrets: [...string]
 
 imageAutomationController: {
 	// About this name, refer to #429 for details.
@@ -12,6 +13,7 @@ imageAutomationController: {
 	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
+		imagePullSecrets: _imagePullSecrets
 		image:           _base + "fluxcd/image-automation-controller:v0.23.0"
 		env: [
 			{

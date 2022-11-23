@@ -18,6 +18,10 @@ if parameter.namespace != _|_ {
 	_targetNamespace: parameter.namespace
 }
 
+if parameter.imagePullSecret != _|_ {
+	_imagePullSecrets: [parameter.imagePullSecret]
+}
+
 gitOpsController: [...] | []
 
 kustomizeResourcesCRD: [...] | []

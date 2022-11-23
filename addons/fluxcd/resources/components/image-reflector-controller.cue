@@ -4,6 +4,7 @@ _base: string
 _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
+_imagePullSecrets: [...string]
 
 imageReflectorController: {
 	// About this name, refer to #429 for details.
@@ -12,6 +13,7 @@ imageReflectorController: {
 	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
+		imagePullSecrets: _imagePullSecrets
 		image:           _base + "fluxcd/image-reflector-controller:v0.19.0"
 		env: [
 			{

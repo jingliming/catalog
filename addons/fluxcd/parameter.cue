@@ -7,4 +7,6 @@ parameter: {
 	namespace?: *"flux-system" | string
 	//+usage=OnlyHelmComponents only enable helm associated components, default to false
 	onlyHelmComponents?: *false | bool
+	//+usage=imagePullSecret for pulling image
+	imagePullSecret?: *"" | string
 }

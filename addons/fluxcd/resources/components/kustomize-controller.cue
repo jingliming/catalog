@@ -4,6 +4,7 @@ _base: string
 _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
+_imagePullSecrets: [...string]
 
 kustomizeController: {
 	// About this name, refer to #429 for details.
@@ -12,6 +13,7 @@ kustomizeController: {
 	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
+		imagePullSecrets: _imagePullSecrets
 		image:           _base + "fluxcd/kustomize-controller:v0.26.0"
 		env: [
 			{

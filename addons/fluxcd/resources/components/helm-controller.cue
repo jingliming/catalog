@@ -4,6 +4,7 @@ _base: string
 _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
+_imagePullSecrets: [...string]
 
 helmController: {
 	// About this name, refer to #429 for details.
@@ -12,6 +13,7 @@ helmController: {
 	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
+	  imagePullSecrets: _imagePullSecrets
 		image:           _base + "fluxcd/helm-controller:v0.22.0"
 		env: [
 			{
