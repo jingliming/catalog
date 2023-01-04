@@ -26,13 +26,15 @@ template: {
 		duration?: int
 	}
 	#TrafficRouting: {
-		// use context.name as service if not filled
-		service?:          string
+		// +usage=holds the name of a service which selects pods with stable version and don't select any pods with canary version. Use context.name as service if not filled
+		service?:           string
 		gracePeriodSeconds: *5 | int
-		// +usage=Traffic routing for ingress providers, currently only nginx is supported, later we will gradually add more types, such as Isito, Alb
-		type:               "nginx"
-		// +usage=ingress name
+		// +usage=refers to the ingress as traffic route. Use context.name as service if not filled
 		ingressName?: string
+		// +usage=refers to the name of an `HTTPRoute` of gateway API.
+		gatewayHTTPRouteName?: string
+		// +usage=specify the type of traffic route, can be ingress or gateway.
+		type: *"ingress" | "gateway"
 	}
 	#WorkloadType: {
 		apiVersion: string
@@ -48,6 +50,10 @@ template: {
 			trafficRoutings?: [...#TrafficRouting]
 		}
 		workloadType?: #WorkloadType
+		// *usage=Define the expect step
+		stepPartition?: int
+		// *usage=Specify rollout id
+		rolloutID?: string
 	}
 
 	srcName: context.output.metadata.name
@@ -58,6 +64,9 @@ template: {
 		metadata: {
 			name:      context.name
 			namespace: context.namespace
+			annotations: {
+				"rollouts.kruise.io/deployment-rollout-strategy": "inplace"
+			}
 		}
 		spec: {
 			objectRef: {
@@ -93,7 +102,16 @@ template: {
 					}
 				}
 			}
+			if parameter.rolloutID != _|_ {
+				rolloutID: parameter.rolloutID
+			}
 			strategy: {
+				if parameter.stepPartition < 0 {
+					paused: true
+				}
+				if parameter.stepPartition >= 0 {
+					paused: false
+				}
 				canary: {
 					steps: [
 						for k, v in parameter.canary.steps {
@@ -109,7 +127,15 @@ template: {
 								if parameter.auto {
 									duration: 0
 								}
-								if !parameter.auto && v.duration != _|_ {
+								if parameter.stepPartition != _|_ {
+									if k <= parameter.stepPartition-1 {
+										duration: 0
+									}
+									if k == len(parameter.canary.steps)-1 {
+										duration: 0
+									}
+								}
+								if !parameter.auto && v.duration != _|_ && parameter.stepPartition == _|_ {
 									duration: v.duration
 								}
 							}
@@ -125,13 +151,22 @@ template: {
 									service: context.name
 								}
 								gracePeriodSeconds: routing.gracePeriodSeconds
-								type:               routing.type
-								ingress: {
+
+								if routing.type == "ingress" {
 									if routing.ingressName != _|_ {
-										name: routing.ingressName
+										ingress: name: routing.ingressName
 									}
 									if routing.ingressName == _|_ {
-										name: context.name
+										ingress: name: context.name
+									}
+								}
+
+								if routing.type == "gateway" {
+									if routing.gatewayHTTPRouteName != _|_ {
+										gateway: httpRouteName: routing.gatewayHTTPRouteName
+									}
+									if routing.gatewayHTTPRouteName == _|_ {
+										gateway: httpRouteName: context.name
 									}
 								}
 							},
