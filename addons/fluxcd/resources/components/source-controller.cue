@@ -15,7 +15,7 @@ sourceController: {
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:           _base + "fluxcd/source-controller:v0.25.1"
+		image:           _base + "source-controller:v0.25.1"
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

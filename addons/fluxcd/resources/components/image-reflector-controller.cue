@@ -14,7 +14,7 @@ imageReflectorController: {
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:           _base + "fluxcd/image-reflector-controller:v0.19.0"
+		image:           _base + "image-reflector-controller:v0.19.0"
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

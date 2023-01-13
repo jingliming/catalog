@@ -14,7 +14,7 @@ helmController: {
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 	  imagePullSecrets: _imagePullSecrets
-		image:           _base + "fluxcd/helm-controller:v0.22.0"
+		image:           _base + "helm-controller:v0.22.0"
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

@@ -14,7 +14,7 @@ imageAutomationController: {
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:           _base + "fluxcd/image-automation-controller:v0.23.0"
+		image:           _base + "image-automation-controller:v0.23.0"
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

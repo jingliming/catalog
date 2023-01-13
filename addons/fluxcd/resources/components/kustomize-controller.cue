@@ -14,7 +14,7 @@ kustomizeController: {
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:           _base + "fluxcd/kustomize-controller:v0.26.0"
+		image:           _base + "kustomize-controller:v0.26.0"
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"
