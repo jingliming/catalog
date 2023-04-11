@@ -65,7 +65,7 @@ template: {
 			name:      context.name
 			namespace: context.namespace
 			annotations: {
-				"rollouts.kruise.io/deployment-rollout-strategy": "inplace"
+				"rollouts.kruise.io/rolling-style": "partition"
 			}
 		}
 		spec: {
