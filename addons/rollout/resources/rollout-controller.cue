@@ -1,3 +1,14 @@
+_useExistedClusterRole: *false | bool
+_existedClusterRoleName: *"kubevela-vela-core:manager" | string
+
+if parameter.useExistedClusterRole != _|_ {
+	_useExistedClusterRole: parameter.useExistedClusterRole
+}
+
+if parameter.existedClusterRoleName != _|_ {
+	_existedClusterRoleName: parameter.existedClusterRoleName
+}
+
 output: {
 	type: "helm"
 	properties: {
@@ -23,6 +34,11 @@ output: {
 						name: parameter.imagePullSecret
 					},
 				]
+			}
+			if _useExistedClusterRole {
+				serviceAccount: {
+					exsitedClusterRoleName: _existedClusterRoleName
+					}
 			}
 		}
 	}

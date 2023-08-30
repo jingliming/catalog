@@ -4,6 +4,22 @@ import "strings"
 
 // controller images prefix
 _base: *"" | string
+_bindingClusterRole: {}
+_useExistedClusterRole: *false | bool
+_existedClusterRoleName: *"kubevela-vela-core:manager" | string
+
+if parameter.useExistedClusterRole != _|_ {
+	_useExistedClusterRole: parameter.useExistedClusterRole
+}
+
+if parameter.existedClusterRoleName != _|_ {
+	_existedClusterRoleName: parameter.existedClusterRoleName
+}
+
+_bindingClusterRole: bindingClusterAdmin
+if parameter.useExistedClusterRole != _|_ && parameter.useExistedClusterRole == true {
+	_bindingClusterRole: bindingClusterRole
+}
 
 if parameter.registry != _|_ && parameter.registry != "" && !strings.HasSuffix(parameter.registry, "/") {
 	_base: parameter.registry + "/"
@@ -41,21 +57,21 @@ output: {
 	kind:       "Application"
 	spec: {
 		components: [
-				{
-				type: "k8s-objects"
-				name: "fluxcd-ns"
-				properties: objects: [{
-					apiVersion: "v1"
-					kind:       "Namespace"
-					metadata: name: _targetNamespace
-				}]
-			},
+//				{
+//				type: "k8s-objects"
+//				name: "fluxcd-ns"
+//				properties: objects: [{
+//					apiVersion: "v1"
+//					kind:       "Namespace"
+//					metadata: name: _targetNamespace
+//				}]
+//			},
 			{
 				type: "k8s-objects"
 				name: "fluxcd-rbac"
 				properties: objects: [
 					// auto-generated from original yaml files
-					bindingClusterAdmin,
+					_bindingClusterRole,
 				]
 			},
 			{

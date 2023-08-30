@@ -1,5 +1,16 @@
 package main
 
+_useExistedClusterRole: *false | bool
+_existedClusterRoleName: *"kubevela-vela-core:manager" | string
+
+if parameter.useExistedClusterRole != _|_ {
+	_useExistedClusterRole: parameter.useExistedClusterRole
+}
+
+if parameter.existedClusterRoleName != _|_ {
+	_existedClusterRoleName: parameter.existedClusterRoleName
+}
+
 output: {
 	apiVersion: "core.oam.dev/v1beta1"
 	kind:       "Application"
@@ -26,6 +37,9 @@ output: {
 									tag: parameter.imageTag
 								}
 							}
+						}
+						if _useExistedClusterRole {
+							rbac: exsitedClusterRoleName: _existedClusterRoleName
 						}
 						if parameter.imagePullSecret != _|_ {
 							imagePullSecrets: [

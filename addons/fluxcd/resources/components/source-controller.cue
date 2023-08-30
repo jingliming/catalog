@@ -6,12 +6,14 @@ controllerArgs: [...]
 _targetNamespace: string
 _sourceControllerName: "fluxcd-source-controller"
 _imagePullSecrets: [...string]
+_useExistedClusterRole: bool
+_existedClusterRoleName: string
 
 sourceController: {
 	// About this name, refer to #429 for details.
 	name: _sourceControllerName
 	type: "webservice"
-	dependsOn: ["fluxcd-ns"]
+//	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
@@ -64,7 +66,12 @@ sourceController: {
 			properties: {
 				name:       "sa-source-controller"
 				create:     true
-				privileges: _rules
+				if _useExistedClusterRole != _|_  && _useExistedClusterRole == true {
+					existedClusterRoleName: _existedClusterRoleName
+				}
+				if _useExistedClusterRole == _|_  || _useExistedClusterRole == false {
+					privileges: _rules
+				}
 			}
 		},
 		{

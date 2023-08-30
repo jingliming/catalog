@@ -5,12 +5,14 @@ _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
 _imagePullSecrets: [...string]
+_useExistedClusterRole: bool
+_existedClusterRoleName: string
 
 imageReflectorController: {
 	// About this name, refer to #429 for details.
 	name: "fluxcd-image-reflector-controller"
 	type: "webservice"
-	dependsOn: ["fluxcd-ns"]
+//	dependsOn: ["fluxcd-ns"]
 	properties: {
 		imagePullPolicy: "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
@@ -54,7 +56,12 @@ imageReflectorController: {
 			properties: {
 				name:       "sa-image-reflector-controller"
 				create:     true
-				privileges: _rules
+				if _useExistedClusterRole != _|_  && _useExistedClusterRole == true {
+					existedClusterRoleName: _existedClusterRoleName
+				}
+				if _useExistedClusterRole == _|_  || _useExistedClusterRole == false {
+					privileges: _rules
+				}
 			}
 		},
 		{
