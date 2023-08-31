@@ -8,7 +8,7 @@ parameter: {
 	//+usage=OnlyHelmComponents only enable helm associated components, default to false
 	onlyHelmComponents?: *false | bool
 	//+usage=imagePullSecret for pulling image
-	imagePullSecret?: *"" | string
-	useExistedClusterRole?: *false | bool
+	imagePullSecret?:        *"" | string
+	useExistedClusterRole?:  *false | bool
 	existedClusterRoleName?: *"kubevela-vela-core:manager" | string
 }

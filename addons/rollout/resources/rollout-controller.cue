@@ -1,4 +1,4 @@
-_useExistedClusterRole: *false | bool
+_useExistedClusterRole:  *false | bool
 _existedClusterRoleName: *"kubevela-vela-core:manager" | string
 
 if parameter.useExistedClusterRole != _|_ {
@@ -38,7 +38,7 @@ output: {
 			if _useExistedClusterRole {
 				serviceAccount: {
 					exsitedClusterRoleName: _existedClusterRoleName
-					}
+				}
 			}
 		}
 	}

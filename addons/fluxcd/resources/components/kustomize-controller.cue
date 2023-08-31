@@ -5,18 +5,18 @@ _rules: [...]
 controllerArgs: [...]
 _targetNamespace: string
 _imagePullSecrets: [...string]
-_useExistedClusterRole: bool
+_useExistedClusterRole:  bool
 _existedClusterRoleName: string
 
 kustomizeController: {
 	// About this name, refer to #429 for details.
 	name: "fluxcd-kustomize-controller"
 	type: "webservice"
-//	dependsOn: ["fluxcd-ns"]
+	// dependsOn: ["fluxcd-ns"]
 	properties: {
-		imagePullPolicy: "IfNotPresent"
+		imagePullPolicy:  "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:           _base + "kustomize-controller:v0.26.0"
+		image:            _base + "kustomize-controller:v0.26.0"
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"
@@ -50,12 +50,12 @@ kustomizeController: {
 		{
 			type: "service-account"
 			properties: {
-				name:       "sa-kustomize-controller"
-				create:     true
-				if _useExistedClusterRole != _|_  && _useExistedClusterRole == true {
+				name:   "sa-kustomize-controller"
+				create: true
+				if _useExistedClusterRole != _|_ && _useExistedClusterRole == true {
 					existedClusterRoleName: _existedClusterRoleName
 				}
-				if _useExistedClusterRole == _|_  || _useExistedClusterRole == false {
+				if _useExistedClusterRole == _|_ || _useExistedClusterRole == false {
 					privileges: _rules
 				}
 			}

@@ -1,6 +1,6 @@
 package main
 
-_targetNamespace: string
+_targetNamespace:        string
 _existedClusterRoleName: string
 
 bindingClusterRole: {
@@ -12,7 +12,12 @@ bindingClusterRole: {
 	roleRef: {
 		apiGroup: "rbac.authorization.k8s.io"
 		kind:     "ClusterRole"
-		name:     _existedClusterRoleName
+		if _useExistedClusterRole != _|_ && _useExistedClusterRole == true {
+			name: _existedClusterRoleName
+		}
+		if _useExistedClusterRole == _|_ || _useExistedClusterRole == false {
+			name: "cluster-admin"
+		}
 	}
 	subjects: [{
 		kind:      "ServiceAccount"
