@@ -1,4 +1,5 @@
 parameter: {
+	namespace?: *"vela-system" | string
 	// controller images prefix
 	chartRepo?:    string
 	chartVersion?: string
@@ -8,4 +9,14 @@ parameter: {
 	imagePullSecret?:        string
 	useExistedClusterRole?:  *false | bool
 	existedClusterRoleName?: *"kubevela-vela-core:manager" | string
+	tolerations?: [...#Toleration]
+	// +usage=Specify tolerant taint
+	#Toleration: {
+		key?:     string
+		operator: *"Equal" | "Exists"
+		value?:   string
+		effect?:  "NoSchedule" | "PreferNoSchedule" | "NoExecute"
+		// +usage=Specify the period of time the toleration
+		tolerationSeconds?: int
+	}
 }

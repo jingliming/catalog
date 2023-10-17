@@ -16,7 +16,7 @@ output: {
 	kind:       "Application"
 	metadata:
 		name: "kruise-rollout"
-	namespace: "vela-system"
+	namespace: parameter.namespace
 	spec:
 		components: [
 			{
@@ -28,7 +28,12 @@ output: {
 					chart:    "kruise-rollout"
 					version:  parameter.chartVersion
 					values: {
-						installation: createNamespace: false
+						installation: {
+							createNamespace: false
+							if parameter.namespace != _|_ {
+								namespace: parameter.namespace
+							}
+						}
 						if parameter.imageRepo != _|_ {
 							image: {
 								repository: parameter.imageRepo
@@ -47,6 +52,11 @@ output: {
 									name: parameter.imagePullSecret
 								},
 							]
+						}
+						if parameter.tolerations != _|_ {
+							if len(parameter.tolerations) != 0 {
+								tolerations: parameter.tolerations
+							}
 						}
 					}
 				}

@@ -79,5 +79,16 @@ imageReflectorController: {
 				args: controllerArgs
 			}
 		},
+	] + [
+		if parameter.tolerations != _|_ {
+			if len(parameter.tolerations) != 0 {
+				{
+					type: "affinity"
+					properties: {
+						tolerations: parameter.tolerations
+					}
+				}
+			}
+		},
 	]
 }

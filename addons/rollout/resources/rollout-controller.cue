@@ -16,7 +16,7 @@ output: {
 		version:         parameter.chartVersion
 		repoType:        "helm"
 		url:             parameter.chartRepo
-		targetNamespace: "vela-system"
+		targetNamespace: parameter.namespace
 		releaseName:     "vela-rollout"
 		values: {
 			if parameter.imageRepo != _|_ {
@@ -38,6 +38,11 @@ output: {
 			if _useExistedClusterRole {
 				serviceAccount: {
 					exsitedClusterRoleName: _existedClusterRoleName
+				}
+			}
+			if parameter.tolerations != _|_ {
+				if len(parameter.tolerations) != 0 {
+					tolerations: parameter.tolerations
 				}
 			}
 		}
