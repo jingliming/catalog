@@ -19,4 +19,5 @@ parameter: {
 		// +usage=Specify the period of time the toleration
 		tolerationSeconds?: int
 	}
+	imageTagSuffix?: *"" | string
 }

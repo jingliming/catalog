@@ -41,6 +41,11 @@ output: {
 								if parameter.imageTag != _|_ {
 									tag: parameter.imageTag
 								}
+								if parameter.imageTag == _|_ {
+									if parameter.imageTagSuffix != _|_ {
+										imageTagSuffix: parameter.imageTagSuffix
+									}
+								}
 							}
 						}
 						if _useExistedClusterRole {
