@@ -8,6 +8,7 @@ _sourceControllerName: "fluxcd-source-controller"
 _imagePullSecrets: [...string]
 _useExistedClusterRole:  bool
 _existedClusterRoleName: string
+_imageTagSuffix:  string
 
 sourceController: {
 	// About this name, refer to #429 for details.
@@ -17,7 +18,7 @@ sourceController: {
 	properties: {
 		imagePullPolicy:  "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:            _base + "source-controller:v0.25.1"
+		image:            _base + "source-controller:v0.25.1" + _imageTagSuffix
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

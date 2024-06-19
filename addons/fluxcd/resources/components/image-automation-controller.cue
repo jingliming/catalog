@@ -7,6 +7,7 @@ _targetNamespace: string
 _imagePullSecrets: [...string]
 _useExistedClusterRole:  bool
 _existedClusterRoleName: string
+_imageTagSuffix:  string
 
 imageAutomationController: {
 	// About this name, refer to #429 for details.
@@ -16,7 +17,7 @@ imageAutomationController: {
 	properties: {
 		imagePullPolicy:  "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:            _base + "image-automation-controller:v0.23.0"
+		image:            _base + "image-automation-controller:v0.23.0" + _imageTagSuffix
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

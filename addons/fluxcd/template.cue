@@ -6,6 +6,7 @@ import "strings"
 _base:                   *"" | string
 _useExistedClusterRole:  *false | bool
 _existedClusterRoleName: *"kubevela-vela-core:manager" | string
+_imageTagSuffix:         *"" | string
 
 if parameter.useExistedClusterRole != _|_ {
 	_useExistedClusterRole: parameter.useExistedClusterRole
@@ -30,6 +31,10 @@ if parameter.namespace != _|_ {
 
 if parameter.imagePullSecret != _|_ {
 	_imagePullSecrets: [parameter.imagePullSecret]
+}
+
+if parameter.imageTagSuffix != _|_ {
+	_imageTagSuffix: parameter.imageTagSuffix
 }
 
 gitOpsController: [...] | []

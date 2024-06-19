@@ -7,6 +7,7 @@ _targetNamespace: string
 _imagePullSecrets: [...string]
 _useExistedClusterRole:  bool
 _existedClusterRoleName: string
+_imageTagSuffix:  string
 
 kustomizeController: {
 	// About this name, refer to #429 for details.
@@ -16,7 +17,7 @@ kustomizeController: {
 	properties: {
 		imagePullPolicy:  "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:            _base + "kustomize-controller:v0.26.0"
+		image:            _base + "kustomize-controller:v0.26.0" + _imageTagSuffix
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"

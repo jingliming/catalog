@@ -7,6 +7,7 @@ _targetNamespace: string
 _imagePullSecrets: [...string]
 _useExistedClusterRole:  bool
 _existedClusterRoleName: string
+_imageTagSuffix:  string
 
 helmController: {
 	// About this name, refer to #429 for details.
@@ -16,7 +17,7 @@ helmController: {
 	properties: {
 		imagePullPolicy:  "IfNotPresent"
 		imagePullSecrets: _imagePullSecrets
-		image:            _base + "helm-controller:v0.22.0"
+		image:            _base + "helm-controller:v0.22.0" + _imageTagSuffix
 		env: [
 			{
 				name:  "RUNTIME_NAMESPACE"
