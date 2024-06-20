@@ -27,7 +27,7 @@ output: {
 						tag: parameter.imageTag
 					}
 					if parameter.imageTag == _|_ {
-						if parameter.imageTagSuffix == _|_ {
+						if parameter.imageTagSuffix != _|_ {
 							imageTagSuffix: parameter.imageTagSuffix
 						}
 					}
